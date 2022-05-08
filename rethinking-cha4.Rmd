@@ -14,16 +14,61 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(rethinking)
 library(tidyverse)
+library(GGally)
+library(ggpubr)
+theme_set(theme_classic2())
 data("Howell1")
 
+```
+a glimpse at the Howell1
+```{r}
+summary(Howell1)
+plot(Howell1)
+ggpairs(Howell1) # better than plot
 ```
 
 height-weight gender
 ```{r}
 ggplot(Howell1)+
   geom_point(aes(x = weight, y = height, color = as.factor(male) ))+
-  geom_smooth(aes(x = weight, y = height, color = as.factor(male),
-                  method = "loess")
+  geom_smooth(aes(x = weight, y = height, color = as.factor(male) ), method = 'loess')
+```
 
+height modeling
+```{r}
+curve(dnorm(x, 180, 20), from = 100, to = 260)
+```
+
+```{r}
+mu <- seq(160,180,by=1)
+sigma <- seq(20,40,by=1)
+
+```
+
+```{r}
+sample_mu <- rnorm(1e4, 178, 20)
+sample_sigma <- runif(1e4, 0, 50)
+prior_h <- rnorm(1e4, sample_mu, sample_sigma)
+hist(prior_h)
+
+prior_h1 <- rnorm(1e4,sample(x = sample_mu,size=1), sample(x = sample_sigma,size=1))
+dens(prior_h1,add = TRUE,col="blue")
+prior_h <- rnorm(1e4, sample_mu, sample_sigma)
+dens(prior_h,add = TRUE,col="red")
+z <- rep(NULL, 1e1)
+for (i in 1:1e1) {
+  z[i] <- rnorm(1,sample(x = sample_mu,size=1), sample(x = sample_sigma,size=1))
+  print(sample_mu)
+  print(sample_sigma)
+}
+boxplot(z)
+boxplot(prior_h)
+```
+
+```{r}
+mu1 <- -1:7
+sigma1 <- 1:3
+pr1 <- rnorm(1e5, mean = mu1, sd = sigma1)
+dens(pr1,col="red",add = TRUE, ylim=c(0,1))
 ```
 
