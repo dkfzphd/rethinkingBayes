@@ -1,0 +1,24 @@
+---
+title: "Untitled"
+author: "ManBuXiaoCun"
+date: '2022-05-12'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+
+```
+
+```{r}
+library(bruceR)
+library(skimr)
+set.seed(1)
+Describe(rnorm(1000000), plot=TRUE)
+
+Describe(airquality)
+Describe(airquality, plot=TRUE, upper.triangle=TRUE, upper.smooth="lm")
+Describe(trees)
+skim(trees)
+```

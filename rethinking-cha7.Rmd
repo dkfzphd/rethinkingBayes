@@ -1,0 +1,35 @@
+---
+title: "rethinking-cha7"
+author: "ManBuXiaoCun"
+date: '2022-06-23'
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+data to dataframe
+```{r}
+sppnames <- c( "afarensis","africanus","habilis","boisei", "rudolfensis","ergaster","sapiens")
+brainvolcc <- c( 438 , 452 , 612, 521, 752, 871, 1350 ) 
+masskg <- c( 37.0 , 35.5 , 34.5 , 41.5 , 55.5 , 61.0 , 53.5 ) 
+d <- data.frame( species=sppnames , brain=brainvolcc , mass=masskg )
+```
+
+#plot and label
+```{r}
+plot(d$brain,d$mass,pch=19,col="blue")
+text(d$brain,d$mass-1,label = d$species) # 1st,2nd for coordinates for place the text
+```
+
+```{r}
+sessionInfo()
+```
+
